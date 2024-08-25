@@ -1,0 +1,25 @@
+while (true)
+{
+    Console.WriteLine("Introduzca el valor inicial: ");
+    int a = Convert.ToInt32(Console.ReadLine());
+    if (a == 0) break;
+
+    Console.WriteLine("Introduzca el valor final: ");
+    int b = Convert.ToInt32(Console.ReadLine());
+    if (b == 0) break;
+
+    for (int i = 1; i <= b; i++)
+    {
+        int res = a * i;
+        string esPar;
+        if (res % 2 == 0)
+        {
+            esPar = "par";
+        }
+        else
+        {
+            esPar = "impar";
+        }
+        Console.WriteLine(a + " * " + i + " = " + res + " (" + esPar + ")");
+    }
+}
