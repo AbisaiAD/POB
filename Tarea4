@@ -1,0 +1,58 @@
+using System;
+using System.Linq;
+
+namespace ListaNumeros
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Ingrese la cantidad de números: ");
+            int n = int.Parse(Console.ReadLine());
+
+            int[] numeros = new int[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                Console.Write($"Ingrese el número {i + 1}: ");
+                numeros[i] = int.Parse(Console.ReadLine());
+            }
+
+            bool continuar = true;
+            while (continuar)
+            {
+                Console.WriteLine("\nMenú de opciones:");
+                Console.WriteLine("1) Sumar todos los Numeros");
+                Console.WriteLine("2) Promedio de todos los números");
+                Console.WriteLine("3) Mostrar numero mayor y menor de la lista");
+                Console.WriteLine("4) Salir");
+                Console.Write("Selecciona una opción: ");
+                int opcion = int.Parse(Console.ReadLine());
+
+                switch (opcion)
+                {
+                    case 1:
+                        int suma = numeros.Sum();
+                        Console.WriteLine($"La suma de todos los elementos es: {suma}");
+                        break;
+                    case 2:
+                        double promedio = numeros.Average();
+                        Console.WriteLine($"El promedio de todos los números es: {promedio}");
+                        break;
+                    case 3:
+                        int max = numeros.Max();
+                        int min = numeros.Min();
+                        Console.WriteLine($"El número mayor es: {max}");
+                        Console.WriteLine($"El número menor es: {min}");
+                        break;
+                    case 4:
+                        continuar = false;
+                        break;
+                    default:
+                        Console.WriteLine("Opción no válida. Intente de nuevo.");
+                        break;
+                }
+            }
+        }
+    }
+}
