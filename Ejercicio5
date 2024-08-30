@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        List<string> cadenas = new List<string>();
+        string input;
+
+        Console.WriteLine("Introduce cadenas de texto: ");
+
+        do
+        {
+            input = Console.ReadLine();
+            if (!string.IsNullOrEmpty(input))
+            {
+                cadenas.Add(input);
+            }
+        } while (!string.IsNullOrEmpty(input));
+
+        Console.WriteLine("\nListado: ");
+
+        for (int i = 0; i < cadenas.Count; i++)
+        {
+            string cadena = cadenas[i];
+            int longitud = 0;
+            for (int j = 0; j < cadena.Length; j++)
+            {
+                longitud++;
+            }
+
+            bool esNumerico = true;
+            for (int k = 0; k < cadena.Length; k++)
+            {
+                if (!char.IsDigit(cadena[k]))
+                {
+                    esNumerico = false;
+                    break;
+                }
+            }
+
+            string tipo = esNumerico ? "Numérico" : "Alfanumérico";
+            Console.WriteLine($"{i + 1}: \"{cadena}\", Longitud: {longitud}, Tipo: {tipo}");
+        }
+    }
+}
