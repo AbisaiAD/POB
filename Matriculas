@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Estudiante
+{
+    public int Matricula { get; set; }
+    public string Nombre { get; set; }
+    public string Apellido1 { get; set; }
+    public string Apellido2 { get; set; }
+
+    public string NombreCompleto()
+    {
+        return $"{Nombre} {Apellido1} {Apellido2}";
+    }
+}
+
+class Programa
+{
+    static void Main()
+    {
+        List<Estudiante> listaEstudiantes = new List<Estudiante>();
+        HashSet<int> matriculas = new HashSet<int>();
+
+        Console.Write("¿Cuántos estudiantes quieres ingresar? ");
+        int cantidad = int.Parse(Console.ReadLine());
+
+        for (int i = 0; i < cantidad; i++)
+        {
+            Estudiante estudiante = new Estudiante();
+
+            Console.Write("Ingresa la matrícula del estudiante: ");
+            int matricula;
+            while (true)
+            {
+                matricula = int.Parse(Console.ReadLine());
+                if (!matriculas.Contains(matricula))
+                {
+                    matriculas.Add(matricula);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("La matrícula ya existe, ingresa una diferente: ");
+                }
+            }
+            estudiante.Matricula = matricula;
+
+            Console.Write("Ingresa el nombre del estudiante: ");
+            estudiante.Nombre = Console.ReadLine();
+
+            Console.Write("Ingresa el primer apellido del estudiante: ");
+            estudiante.Apellido1 = Console.ReadLine();
+
+            Console.Write("Ingresa el segundo apellido del estudiante: ");
+            estudiante.Apellido2 = Console.ReadLine();
+
+            listaEstudiantes.Add(estudiante);
+        }
+
+        var estudiantesOrdenados = listaEstudiantes.OrderBy(e => e.Matricula).ToList();
+
+        Console.WriteLine($"\nTotal de estudiantes ingresados: {listaEstudiantes.Count}");
+        foreach (var estudiante in estudiantesOrdenados)
+        {
+            Console.WriteLine($"Matrícula: {estudiante.Matricula}, Nombre Completo: {estudiante.NombreCompleto()}");
+        }
+    }
+}
