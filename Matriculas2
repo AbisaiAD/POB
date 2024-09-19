@@ -1,0 +1,98 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Estudiante
+{
+    public int Matricula { get; set; }
+    public string Nombre { get; set; }
+    public string Apellido1 { get; set; }
+    public string Apellido2 { get; set; }
+    public int Asistencias { get; set; } = 0;
+    public int Faltas { get; set; } = 0;
+
+    public string NombreCompleto()
+    {
+        return $"{Nombre} {Apellido1} {Apellido2}";
+    }
+}
+
+class Programa
+{
+    static void Main()
+    {
+        List<Estudiante> listaEstudiantes = new List<Estudiante>();
+        HashSet<int> matriculas = new HashSet<int>();
+
+        Console.Write("¿Cuántos estudiantes quieres ingresar? ");
+        int cantidad = int.Parse(Console.ReadLine());
+
+        for (int i = 0; i < cantidad; i++)
+        {
+            Estudiante estudiante = new Estudiante();
+
+            Console.Write("Ingresa la matrícula del estudiante: ");
+            int matricula;
+            while (true)
+            {
+                matricula = int.Parse(Console.ReadLine());
+                if (!matriculas.Contains(matricula))
+                {
+                    matriculas.Add(matricula);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("La matrícula ya existe, ingresa una diferente: ");
+                }
+            }
+            estudiante.Matricula = matricula;
+
+            Console.Write("Ingresa el nombre del estudiante: ");
+            estudiante.Nombre = Console.ReadLine();
+
+            Console.Write("Ingresa el primer apellido del estudiante: ");
+            estudiante.Apellido1 = Console.ReadLine();
+
+            Console.Write("Ingresa el segundo apellido del estudiante: ");
+            estudiante.Apellido2 = Console.ReadLine();
+
+            listaEstudiantes.Add(estudiante);
+        }
+
+        var estudiantesOrdenados = listaEstudiantes.OrderBy(e => e.Matricula).ToList();
+
+        Console.WriteLine($"\nTotal de estudiantes ingresados: {listaEstudiantes.Count}");
+        foreach (var estudiante in estudiantesOrdenados)
+        {
+            Console.WriteLine($"Matrícula: {estudiante.Matricula}, Nombre Completo: {estudiante.NombreCompleto()}");
+        }
+
+      
+        Console.Write("\n¿Cuántos días se registrará la asistencia? ");
+        int dias = int.Parse(Console.ReadLine());
+
+        for (int dia = 1; dia <= dias; dia++)
+        {
+            Console.WriteLine($"\nDía {dia}:");
+            foreach (var estudiante in listaEstudiantes)
+            {
+                Console.Write($"¿El estudiante {estudiante.NombreCompleto()} está presente? (s/n): ");
+                string respuesta = Console.ReadLine().ToLower();
+                if (respuesta == "s")
+                {
+                    estudiante.Asistencias++;
+                }
+                else
+                {
+                    estudiante.Faltas++;
+                }
+            }
+        }
+        int sinFaltas = listaEstudiantes.Count(e => e.Faltas == 0);
+        int sinAsistencias = listaEstudiantes.Count(e => e.Asistencias == 0);
+
+        Console.WriteLine($"\nTotal de alumnos sin faltas: {sinFaltas}");
+        Console.WriteLine($"Total de alumnos sin asistencia: {sinAsistencias}");
+    }
+}
