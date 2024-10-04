@@ -1,0 +1,94 @@
+using System;
+
+namespace Prestamos
+{
+    class Plan
+    {
+        public int Meses { get; set; }
+        public decimal Porcentaje { get; set; }
+
+        public Plan(int meses, decimal porcentaje)
+        {
+            Meses = meses;
+            Porcentaje = porcentaje;
+        }
+    }
+
+    class Prestamo
+    {
+        public decimal Monto { get; set; }
+        public Plan Plan { get; set; }
+
+        public Prestamo(decimal monto, Plan plan)
+        {
+            Monto = monto;
+            Plan = plan;
+        }
+
+        public decimal ObtenerTotalPago()
+        {
+            return Monto * (1 + Plan.Porcentaje * Plan.Meses);
+        }
+
+        public decimal ObtenerGanancia()
+        {
+            return Monto * Plan.Porcentaje * Plan.Meses;
+        }
+
+        public decimal ObtenerPagoMensual()
+        {
+            return ObtenerTotalPago() / Plan.Meses;
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            decimal monto;
+            while (true)
+            {
+                Console.WriteLine("Ingrese el monto a retirar (entre $1,000 y $10,000):");
+                monto = Convert.ToDecimal(Console.ReadLine());
+
+                if (monto >= 1000 && monto <= 10000)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Monto fuera del rango permitido. Por favor, intente de nuevo.");
+                }
+            }
+
+            Console.WriteLine("Elija el plan de pago (a, b, c):");
+            Console.WriteLine("a) 1 mes: 6% mensual");
+            Console.WriteLine("b) 3 meses: 9% mensual");
+            Console.WriteLine("c) 6 meses: 12% mensual");
+            char opcion = Convert.ToChar(Console.ReadLine());
+
+            Plan plan;
+            switch (opcion)
+            {
+                case 'a':
+                    plan = new Plan(1, 0.06m);
+                    break;
+                case 'b':
+                    plan = new Plan(3, 0.09m);
+                    break;
+                case 'c':
+                    plan = new Plan(6, 0.12m);
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida.");
+                    return;
+            }
+
+            Prestamo prestamo = new Prestamo(monto, plan);
+
+            Console.WriteLine($"Monto total a pagar: {prestamo.ObtenerTotalPago():C}");
+            Console.WriteLine($"Monto a pagar por mes: {prestamo.ObtenerPagoMensual():C}");
+            Console.WriteLine($"Ganancia del prestamista: {prestamo.ObtenerGanancia():C}");
+        }
+    }
+}
